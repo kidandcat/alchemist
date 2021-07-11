@@ -1,0 +1,75 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Game.gd" type="Script" id=1]
+[ext_resource path="res://widgets/Logo.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assets/ui_play.png" type="Texture" id=3]
+[ext_resource path="res://assets/wallpaper.jpg" type="Texture" id=4]
+[ext_resource path="res://assets/ui_play_pressed.png" type="Texture" id=5]
+
+[node name="Game" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.18921
+margin_right = 681.189
+margin_bottom = 1580.0
+texture = ExtResource( 4 )
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 100
+custom_constants/margin_left = 100
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+margin_left = 100.0
+margin_right = 300.0
+margin_bottom = 700.0
+custom_constants/separation = 30
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 200.0
+margin_right = 200.0
+margin_bottom = 400.0
+rect_min_size = Vector2( 0, 200 )
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/CenterContainer"]
+margin_left = 100.0
+margin_top = 100.0
+margin_right = 100.0
+margin_bottom = 100.0
+
+[node name="Logo" parent="MarginContainer/VBoxContainer/CenterContainer/Control" instance=ExtResource( 2 )]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+margin_top = 430.0
+margin_right = 200.0
+margin_bottom = 500.0
+alignment = 1
+
+[node name="Play" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 28.0
+margin_right = 172.0
+margin_bottom = 70.0
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 5 )
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Play" to="." method="_on_Easy_pressed"]
