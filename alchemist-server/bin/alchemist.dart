@@ -82,6 +82,7 @@ class Level {
         return index;
       }
       index++;
+      if (index > 500) return 0;
     }
   }
 }
