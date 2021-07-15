@@ -9,7 +9,6 @@ bg_color = Color( 0.121569, 0.137255, 0.2, 1 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 8 )
-creatorMode = true
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 202, 375.333 )
@@ -29,28 +28,28 @@ position = Vector2( 240, 170 )
 position = Vector2( 320, 170 )
 
 [node name="Position2D5" type="Position2D" parent="."]
-position = Vector2( 80, 350 )
+position = Vector2( 80, 370 )
 
 [node name="Position2D6" type="Position2D" parent="."]
-position = Vector2( 160, 350 )
+position = Vector2( 160, 370 )
 
 [node name="Position2D7" type="Position2D" parent="."]
-position = Vector2( 240, 350 )
+position = Vector2( 240, 370 )
 
 [node name="Position2D8" type="Position2D" parent="."]
-position = Vector2( 320, 350 )
+position = Vector2( 320, 370 )
 
 [node name="Position2D9" type="Position2D" parent="."]
-position = Vector2( 80, 530 )
+position = Vector2( 80, 570 )
 
 [node name="Position2D10" type="Position2D" parent="."]
-position = Vector2( 160, 530 )
+position = Vector2( 160, 570 )
 
 [node name="Position2D11" type="Position2D" parent="."]
-position = Vector2( 240, 530 )
+position = Vector2( 240, 570 )
 
 [node name="Position2D12" type="Position2D" parent="."]
-position = Vector2( 320, 530 )
+position = Vector2( 320, 570 )
 
 [node name="Tubes" type="Node2D" parent="."]
 

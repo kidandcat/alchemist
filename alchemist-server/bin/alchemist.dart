@@ -21,6 +21,10 @@ void main(List<String> args) async {
     return Response.ok(null);
   });
 
+  app.get('/levels', (Request request, String id) async {
+    return Response.ok((await Level.nextLevel()) - 1);
+  });
+
   app.get('/level/<id>', (Request request, String id) async {
     var level = await Level.fromFile(int.parse(id));
     return Response.ok(level.toJson());

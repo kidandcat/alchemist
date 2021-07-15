@@ -2,7 +2,7 @@ extends Node
 
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
-var server = "https://vps-62280e79.vps.ovh.net"
+var server = "https://galax.be"
 var http = HTTPRequest.new()
 
 func _ready():

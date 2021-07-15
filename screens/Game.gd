@@ -20,7 +20,7 @@ signal move_end
 func _ready():
 	randomize()
 	_load_save_request()
-	if OS.is_debug_build() && creatorMode:
+	if creatorMode:
 		$CanvasLayer/LevelCreator.visible = true
 
 func recreate():
