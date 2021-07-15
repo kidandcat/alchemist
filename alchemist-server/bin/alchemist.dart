@@ -21,8 +21,9 @@ void main(List<String> args) async {
     return Response.ok(null);
   });
 
-  app.get('/levels', (Request request, String id) async {
-    return Response.ok((await Level.nextLevel()) - 1);
+  app.get('/levels', (Request request) async {
+    var nextLevel = await Level.nextLevel();
+    return Response.ok('${nextLevel - 1}');
   });
 
   app.get('/level/<id>', (Request request, String id) async {
