@@ -3,7 +3,7 @@
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://widgets/Logo.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/ui_play.png" type="Texture" id=3]
-[ext_resource path="res://assets/wallpaper.jpg" type="Texture" id=4]
+[ext_resource path="res://widgets/WallpaperTextureRect.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/ui_play_pressed.png" type="Texture" id=5]
 
 [node name="Game" type="Panel"]
@@ -14,17 +14,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 1.18921
-margin_right = 681.189
-margin_bottom = 1580.0
-texture = ExtResource( 4 )
-stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="TextureRect" parent="." instance=ExtResource( 4 )]
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0

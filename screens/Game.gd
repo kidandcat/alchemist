@@ -1,7 +1,5 @@
 extends Node2D
 
-export var creatorMode = false
-var levelIndex = 1
 var selectedTube: Node2D = null
 var TubeClass = preload("res://widgets/Tube.tscn")
 var colors = ["Purple", "Blue", "Red", "Green", "Yellow", "DarkBlue", "Grey", "Lime", "Orange", "Pink"]
@@ -20,7 +18,7 @@ signal move_end
 func _ready():
 	randomize()
 	_load_save_request()
-	if creatorMode:
+	if Config.creatorMode:
 		$CanvasLayer/LevelCreator.visible = true
 
 func recreate():
@@ -145,7 +143,7 @@ func actionNodeSelected(node: Node2D):
 			moveDotToTube(node)
 			yield(self, "move_end")
 			if isVictory():
-				levelIndex += 1
+				Config.levelIndex += 1
 				_load_save_request()
 		else:
 			toggleDot(selectedTube)
@@ -280,7 +278,7 @@ func _load_save_request():
 			index += 1
 		clutterMode = false
 	else:
-		Config.readFile(levelIndex)
+		Config.readLevel(Config.levelIndex)
 	
 func _load_save_response(data):
 	if data == null:
@@ -291,14 +289,14 @@ func _load_save_response(data):
 		for dot in tube:
 			addDots(tubeNode, dot, 1)
 		index += 1
-	$CanvasLayer/GameUI.setLevel(levelIndex)
+	$CanvasLayer/GameUI.setLevel(Config.levelIndex)
 	clutterMode = false
 		
 func _on_Reload_pressed():
 	clutter()
 
 func _on_MatchIndexInput_text_changed(new_text):
-	levelIndex = int(new_text)
+	Config.levelIndex = int(new_text)
 
 func _on_TubesInput_text_changed(new_text):
 	coloredTubes = int(new_text)
