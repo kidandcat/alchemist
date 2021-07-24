@@ -14,18 +14,6 @@ script = ExtResource( 8 )
 position = Vector2( 200, 732.797 )
 scale = Vector2( 1, 1465.59 )
 
-[node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 80, 170 )
-
-[node name="Position2D2" type="Position2D" parent="."]
-position = Vector2( 160, 170 )
-
-[node name="Position2D3" type="Position2D" parent="."]
-position = Vector2( 240, 170 )
-
-[node name="Position2D4" type="Position2D" parent="."]
-position = Vector2( 320, 170 )
-
 [node name="Position2D5" type="Position2D" parent="."]
 position = Vector2( 80, 370 )
 
@@ -37,6 +25,18 @@ position = Vector2( 240, 370 )
 
 [node name="Position2D8" type="Position2D" parent="."]
 position = Vector2( 320, 370 )
+
+[node name="Position2D" type="Position2D" parent="."]
+position = Vector2( 80, 170 )
+
+[node name="Position2D2" type="Position2D" parent="."]
+position = Vector2( 160, 170 )
+
+[node name="Position2D3" type="Position2D" parent="."]
+position = Vector2( 240, 170 )
+
+[node name="Position2D4" type="Position2D" parent="."]
+position = Vector2( 320, 170 )
 
 [node name="Position2D9" type="Position2D" parent="."]
 position = Vector2( 80, 570 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://widgets/GameUI.gd" type="Script" id=1]
 [ext_resource path="res://assets/camtatz/Buttons/BTN_ORANGE_CIRCLE_OUT.png" type="Texture" id=2]
@@ -7,6 +7,12 @@
 [ext_resource path="res://assets/camtatz/Symbols & Text/SYMB_X.png" type="Texture" id=5]
 [ext_resource path="res://assets/camtatz/Buttons/BTN_RED_CIRCLE_IN.png" type="Texture" id=6]
 [ext_resource path="res://assets/camtatz/Buttons/BTN_RED_CIRCLE_OUT.png" type="Texture" id=7]
+[ext_resource path="res://assets/caveat.ttf" type="DynamicFontData" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 30
+use_filter = true
+font_data = ExtResource( 8 )
 
 [node name="GameUI" type="Control"]
 anchor_right = 1.0
@@ -65,11 +71,12 @@ stretch_mode = 5
 
 [node name="LevelLabel" type="Label" parent="MarginContainer/HBoxContainer"]
 margin_left = 64.0
-margin_top = 46.0
+margin_top = 22.0
 margin_right = 316.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
 size_flags_vertical = 8
+custom_fonts/font = SubResource( 1 )
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
