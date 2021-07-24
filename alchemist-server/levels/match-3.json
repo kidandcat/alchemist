@@ -1,1 +1,1 @@
-[["Purple","Purple"],["Blue","Blue","Blue"],["Red","Red","Green"],["Red"],["Blue","Green","Purple","Green"],["Red","Green","Purple"]]
+{"tubes":[["Green","Blue","Blue"],["Purple","Purple","Blue"],["Blue","Green","Red","Green"],["Red","Red"],["Purple","Green","Purple","Red"]],"paths":[[{"from":1,"to":0},{"from":4,"to":3},{"from":4,"to":1},{"from":2,"to":4},{"from":2,"to":3},{"from":2,"to":4},{"from":0,"to":2},{"from":0,"to":2},{"from":0,"to":2},{"from":4,"to":0},{"from":4,"to":0},{"from":4,"to":0},{"from":4,"to":1}]]}

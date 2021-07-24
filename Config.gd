@@ -36,7 +36,7 @@ func readFromFile(id):
 	var json = JSON.parse(text)
 	file.close()
 	var game = get_tree().root.get_node("Game")
-	game._load_save_response(json.result)
+	game._load_save_response(json.result['tubes'])
 
 func _on_request_completed( result, response_code, headers, body ):
 	var json = JSON.parse(body.get_string_from_utf8())
