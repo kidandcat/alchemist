@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://widgets/Logo.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/ui_play.png" type="Texture" id=3]
+[ext_resource path="res://assets/camtatz/Buttons/BTN_GREEN_CIRCLE_IN.png" type="Texture" id=3]
 [ext_resource path="res://widgets/WallpaperTextureRect.tscn" type="PackedScene" id=4]
-[ext_resource path="res://assets/ui_play_pressed.png" type="Texture" id=5]
+[ext_resource path="res://assets/camtatz/Buttons/BTN_GREEN_CIRCLE_OUT.png" type="Texture" id=5]
+[ext_resource path="res://assets/camtatz/Symbols & Text/SYMB_PLAY.png" type="Texture" id=6]
 
 [node name="Game" type="Panel"]
 anchor_right = 1.0
@@ -36,9 +37,9 @@ __meta__ = {
 }
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 200.0
+margin_top = 164.0
 margin_right = 200.0
-margin_bottom = 400.0
+margin_bottom = 364.0
 rect_min_size = Vector2( 0, 200 )
 
 [node name="Control" type="Control" parent="MarginContainer/VBoxContainer/CenterContainer"]
@@ -50,16 +51,39 @@ margin_bottom = 100.0
 [node name="Logo" parent="MarginContainer/VBoxContainer/CenterContainer/Control" instance=ExtResource( 2 )]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 430.0
+margin_top = 394.0
 margin_right = 200.0
-margin_bottom = 500.0
+margin_bottom = 536.0
 alignment = 1
 
 [node name="Play" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 28.0
-margin_right = 172.0
-margin_bottom = 70.0
-texture_normal = ExtResource( 3 )
-texture_pressed = ExtResource( 5 )
+margin_left = 31.0
+margin_right = 169.0
+margin_bottom = 142.0
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/VBoxContainer/HBoxContainer/Play"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/Play/CenterContainer"]
+margin_left = 44.0
+margin_top = 46.0
+margin_right = 94.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 50, 50 )
+texture = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Play" to="." method="_on_Easy_pressed"]

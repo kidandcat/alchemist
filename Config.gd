@@ -1,6 +1,6 @@
 extends Node
 
-var creatorMode = true
+var creatorMode = false
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
 var server = "https://galax.be"
