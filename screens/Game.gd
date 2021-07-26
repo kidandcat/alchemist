@@ -18,8 +18,6 @@ signal move_end
 func _ready():
 	randomize()
 	_load_save_request()
-	if Config.creatorMode:
-		$CanvasLayer/LevelCreator.visible = true
 
 func recreate():
 	creatingNewLevel = true
@@ -144,6 +142,7 @@ func actionNodeSelected(node: Node2D):
 			yield(self, "move_end")
 			if isVictory():
 				Config.levelIndex += 1
+				Config.save_levels_done(Config.levelIndex)
 				_load_save_request()
 		else:
 			toggleDot(selectedTube)

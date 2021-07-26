@@ -1,10 +1,12 @@
 extends TextureButton
 
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
+var doneTextureOut = preload("res://assets/camtatz/Buttons/BTN_LORANGE_CIRCLE_OUT.png")
+var doneTextureIn = preload("res://assets/camtatz/Buttons/BTN_LORANGE_CIRCLE_IN.png")
 
 func setLabel(text: String):
 	$Label.text = text
+
+func done():
+	texture_normal = doneTextureOut
+	texture_pressed = doneTextureIn

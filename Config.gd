@@ -1,6 +1,5 @@
 extends Node
 
-var creatorMode = false
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
 var server = "https://galax.be"
@@ -19,15 +18,7 @@ func saveFile(data):
 	print("Error: ", err)
 	
 func readLevel(id):
-	if creatorMode:
-		readFromNetwork(id)
-	else:
-		readFromFile(id)
-	
-func readFromNetwork(id):
-	print("request ", server + "/level/%s" % id)
-	var err = http.request(server + "/level/%s" % id)
-	print("Error: ", err)
+	readFromFile(id)
 	
 func readFromFile(id):
 	var file = File.new()
@@ -38,8 +29,17 @@ func readFromFile(id):
 	var game = get_tree().root.get_node("Game")
 	game._load_save_response(json.result['tubes'])
 
-func _on_request_completed( result, response_code, headers, body ):
-	var json = JSON.parse(body.get_string_from_utf8())
-	print("_on_request_completed ", json.result)
-	var game = get_tree().root.get_node("Game")
-	game._load_save_response(json.result)
+func save_levels_done(levels: int):
+	var file = File.new()
+	file.open("user://game.save", File.WRITE)
+	file.store_32(levels)
+	file.close()
+
+func load_levels_done() -> int:
+	var levels: int = 0
+	var file = File.new()
+	if file.file_exists("user://game.save"):
+		file.open("user://game.save", File.READ)
+		levels = file.get_32()
+		file.close()
+	return levels
