@@ -36,7 +36,7 @@ func save_levels_done(levels: int):
 	file.close()
 
 func load_levels_done() -> int:
-	var levels: int = 0
+	var levels: int = 1
 	var file = File.new()
 	if file.file_exists("user://game.save"):
 		file.open("user://game.save", File.READ)

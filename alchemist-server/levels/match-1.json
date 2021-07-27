@@ -1,1 +1,1 @@
-{"tubes":[["Blue","Blue","Red"],["Purple","Purple","Blue","Blue"],["Purple"],["Red","Red","Purple","Red"]],"paths":[[{"from":3,"to":0},{"from":3,"to":2},{"from":0,"to":3},{"from":0,"to":3},{"from":1,"to":0},{"from":1,"to":0},{"from":1,"to":2},{"from":1,"to":2}]]}
+{"tubes":[["Red","Red","Blue"],["Purple","Purple","Purple"],["Blue","Blue","Purple","Blue"],["Red","Red"]],"paths":[[{"from":2,"to":0},{"from":2,"to":1},{"from":0,"to":2},{"from":0,"to":2},{"from":0,"to":3},{"from":0,"to":3}]]}
