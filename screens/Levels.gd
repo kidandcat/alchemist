@@ -17,10 +17,15 @@ func _on_level_pressed(level: int):
 
 func setupLevelButtons(nOfLevels: int):
 	var levelsDone = Config.load_levels_done()
+	var stars = Config.load_stars_done()
 	for level in range(1, nOfLevels):
 		var button = LevelButton.instance()
 		if level < levelsDone:
 			button.done()
-		button.setLabel(String(level))
+			button.empty()
+		if stars.has(level+1):
+			button.star()
+		if level == levelsDone:
+			button.next()
 		button.connect("pressed", self, "_on_level_pressed", [level])
-		$MarginContainer/VBoxContainer/GridContainer.add_child(button)
+		$MarginContainer/VBoxContainer/ScrollContainer/GridContainer.add_child(button)

@@ -15,4 +15,4 @@ func _on_Restart_pressed():
 
 
 func _on_Back_pressed():
-	get_tree().change_scene("res://screens/Levels.tscn")
+	get_tree().change_scene("res://screens/LevelsPath.tscn")

@@ -11,6 +11,7 @@ var emptyTubes = 0
 var moving = false
 var creatingNewLevel = false
 var tempSavedData = []
+var movements = 0
 const top = -600
 
 signal move_end
@@ -143,6 +144,11 @@ func actionNodeSelected(node: Node2D):
 			if isVictory():
 				Config.levelIndex += 1
 				Config.save_levels_done(Config.levelIndex)
+				var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
+				print("Min Steps: ", minSteps)
+				print("Movements: ", movements)
+				if movements <= minSteps:
+					Config.save_stars_done(Config.levelIndex)
 				_load_save_request()
 		else:
 			toggleDot(selectedTube)
@@ -169,6 +175,7 @@ func isVictory():
 
 func moveDotToTube(node: Node2D):
 	moving = true
+	movements += 1
 	var _selectedTube = selectedTube
 	selectedTube = null
 	var dot = getDotByY(_selectedTube, top)
@@ -268,6 +275,7 @@ func _load_save_request():
 	for t in tubes:
 		t.get_parent().remove_child(t)
 	tubes = []
+	movements = 0
 	if creatingNewLevel:
 		var index = 0
 		for tube in tempSavedData:
