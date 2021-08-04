@@ -21,7 +21,7 @@ func saveScene():
 	var packed_scene = PackedScene.new()
 	var node = get_tree().root.get_node("Game/Path")
 	packed_scene.pack(node)
-	ResourceSaver.save(customLevelsScene, packed_scene)
+	var err = ResourceSaver.save(customLevelsScene, packed_scene)
 
 func loadScene():
 	var levelsScene = load(customLevelsScene)

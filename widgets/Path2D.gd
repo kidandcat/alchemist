@@ -16,8 +16,8 @@ onready var levelsDone = Config.load_levels_done()
 onready var stars = Config.load_stars_done()
 
 func _ready():
-	set_process(true)
 	reconnectButtons()
+	set_process(true)
 
 func reconnectButtons():
 	var level = 1
@@ -35,8 +35,8 @@ func reconnectButtons():
 
 func _process(delta):
 	time += delta
-	if levelsDone+2 == index:
-				end()
+	if levelsDone+2 <= index:
+				ended()
 	elif time > timePeriod && !end:
 		time = 0
 		var s = dot.instance()
@@ -49,7 +49,7 @@ func _process(delta):
 			index += 1
 		follow.offset += offsetStep
 		if follow.offset > (pathLength-50):
-			end()
+			ended()
 
 func _set_owner(node):
 	if node != self:
@@ -57,10 +57,11 @@ func _set_owner(node):
 	for child in node.get_children():
 		_set_owner(child)
 
-func end():
+func ended():
 	end = true
 	$Camera2D.target_return_enabled = false
-	get_tree().root.get_node("Game").saveScene()
+	var gameNode = get_tree().root.get_node("Game")
+	gameNode.saveScene()
 
 func setupLevelButton(level: int):
 	var button = LevelButton.instance()
@@ -77,8 +78,6 @@ func setupLevelButton(level: int):
 	_set_owner(button)
 
 func setupLevelButtons(nOfLevels: int):
-	var levelsDone = Config.load_levels_done()
-	var stars = Config.load_stars_done()
 	for level in range(1, nOfLevels):
 		var button = LevelButton.instance()
 		if level < levelsDone:
@@ -92,5 +91,5 @@ func setupLevelButtons(nOfLevels: int):
 		button.set_global_position(follow.global_position)
 		add_child(button)
 		_set_owner(button)
-		follow.offset += 100
+		follow.offset += offsetStep
 

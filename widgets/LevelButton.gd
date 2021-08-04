@@ -6,13 +6,13 @@ var doneTextureIn = preload("res://assets/camtatz/Buttons/BTN_LORANGE_CIRCLE_IN.
 var nextTextureOut = preload("res://assets/camtatz/Buttons/BTN_BLUE_CIRCLE_OUT.png")
 var nextTextureIn = preload("res://assets/camtatz/Buttons/BTN_BLUE_CIRCLE_IN.png")
 var fill = preload("res://assets/fill.png")
-var empty = preload("res://assets/void.png")
+var emptyImage = preload("res://assets/void.png")
 
 func star():
 	$CenterContainer/TextureRect.texture = fill
 	
 func empty():
-	$CenterContainer/TextureRect.texture = empty
+	$CenterContainer/TextureRect.texture = emptyImage
 
 func done():
 	texture_normal = doneTextureOut

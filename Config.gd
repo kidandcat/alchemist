@@ -30,6 +30,7 @@ func readFromFile(id):
 	game._load_save_response(json.result['tubes'])
 
 func save_levels_done(levels: int):
+	print("save levels done")
 	var done = load_levels_done()
 	if levels > done:
 		var file = File.new()
