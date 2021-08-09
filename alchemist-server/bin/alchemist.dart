@@ -67,11 +67,12 @@ Future<void> regenerate() async {
   await createLevels(10, 3, 1);
   await createLevels(10, 4, 1);
   await createLevels(10, 5, 1);
-  await createLevels(10, 6, 2);
-  await createLevels(10, 7, 2);
-  await createLevels(10, 8, 2);
-  await createLevels(10, 9, 2);
-  await createLevels(10, 10, 2);
+  await createLevels(20, 6, 2);
+  await createLevels(20, 7, 2);
+  await createLevels(30, 8, 2);
+  await createLevels(50, 9, 2);
+  await createLevels(50, 10, 2);
+  await createLevels(50, 10, 2);
   print('-Regeneration finished');
 }
 
@@ -101,7 +102,7 @@ class Level {
     List<Path>? paths,
     int? emptyTubes,
     int? colorTubes,
-    int clutterIterations = 50,
+    int clutterIterations = 100,
   }) {
     if (tubes == null) {
       this.tubes = [];
@@ -122,7 +123,7 @@ class Level {
   }
 
   Future<bool> calculateAndSave() async {
-    var success = await findPaths(1);
+    var success = await findPaths(10);
     if (!success) return false;
     await saveFile();
     return true;

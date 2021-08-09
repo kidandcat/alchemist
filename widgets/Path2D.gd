@@ -18,7 +18,7 @@ onready var stars = Config.load_stars_done()
 func _ready():
 	reconnectButtons()
 	set_process(true)
-	$Camera2D/GameUI.levelsMode()
+	$Camera2D/CanvasLayer/GameUI.levelsMode()
 
 func reconnectButtons():
 	var level = 1
