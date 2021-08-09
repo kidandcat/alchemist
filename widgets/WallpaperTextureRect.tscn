@@ -2,14 +2,14 @@
 
 [ext_resource path="res://wallpaperGradient.tres" type="Gradient" id=1]
 
-[sub_resource type="GradientTexture" id=2]
+[sub_resource type="GradientTexture" id=1]
 gradient = ExtResource( 1 )
 width = 400
 
 [node name="TextureRect" type="TextureRect"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = SubResource( 2 )
+texture = SubResource( 1 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false

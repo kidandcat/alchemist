@@ -3,6 +3,11 @@ extends Control
 signal ui_restart
 
 onready var levelLabel = $MarginContainer/HBoxContainer/LevelLabel
+var levelsMode = false
+
+func levelsMode():
+	$MarginContainer/HBoxContainer/Restart2.visible = false
+	levelsMode = true
 
 func setText(text):
 	levelLabel.text = text
@@ -15,4 +20,7 @@ func _on_Restart_pressed():
 
 
 func _on_Back_pressed():
-	get_tree().change_scene("res://screens/LevelsPath.tscn")
+	if levelsMode:
+		get_tree().change_scene("res://Game.tscn")
+	else:
+		get_tree().change_scene("res://screens/LevelsPath.tscn")

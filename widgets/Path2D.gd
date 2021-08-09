@@ -18,6 +18,7 @@ onready var stars = Config.load_stars_done()
 func _ready():
 	reconnectButtons()
 	set_process(true)
+	$Camera2D/GameUI.levelsMode()
 
 func reconnectButtons():
 	var level = 1
@@ -49,6 +50,7 @@ func _process(delta):
 			index += 1
 		follow.offset += offsetStep
 		if follow.offset > (pathLength-50):
+			timePeriod = 0.1
 			ended()
 
 func _set_owner(node):
@@ -74,7 +76,7 @@ func setupLevelButton(level: int):
 		button.next()
 	button.connect("pressed", get_tree().root.get_node("Game"), "_on_level_pressed", [level])
 	button.set_global_position(follow.global_position)
-	add_child(button)
+	$Dots.add_child(button)
 	_set_owner(button)
 
 func setupLevelButtons(nOfLevels: int):
@@ -89,7 +91,7 @@ func setupLevelButtons(nOfLevels: int):
 			button.next()
 		button.connect("pressed", self, "_on_level_pressed", [level])
 		button.set_global_position(follow.global_position)
-		add_child(button)
+		$Dots.add_child(button)
 		_set_owner(button)
 		follow.offset += offsetStep
 
