@@ -276,6 +276,7 @@ func _load_save_request():
 		t.get_parent().remove_child(t)
 	tubes = []
 	movements = 0
+	selectedTube = null
 	if creatingNewLevel:
 		var index = 0
 		for tube in tempSavedData:
