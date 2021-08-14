@@ -24,7 +24,9 @@ const colors = [
 ];
 
 const maxMovements = 200;
-const maxSeconds = 5;
+const maxMiliseconds = 10;
+
+var total = 0;
 
 const _hostname = 'localhost';
 const _port = 8080;
@@ -64,6 +66,7 @@ Future<void> regenerate() async {
   if (await dir.exists()) await dir.delete(recursive: true);
   await dir.create();
   print('-Regenerating');
+  total = 250;
   await createLevels(10, 3, 1);
   await createLevels(10, 4, 1);
   await createLevels(10, 5, 1);
@@ -76,21 +79,22 @@ Future<void> regenerate() async {
   print('-Regeneration finished');
 }
 
+var levelsCounter = 0;
+
 Future<void> createLevels(int levels, int colorTubes, int emptyTubes) async {
   for (var i = 0; i < levels; i++) {
+    print('-- $i/$levels   total: $levelsCounter/$total');
     await createLevel(colorTubes, emptyTubes);
+    levelsCounter++;
   }
 }
 
 Future<void> createLevel(int colorTubes, int emptyTubes) async {
-  print('Start        color: $colorTubes   empty: $emptyTubes');
   var level = Level(colorTubes: colorTubes, emptyTubes: emptyTubes);
   var success = await level.calculateAndSave();
   if (!success) {
-    print('   Retrying');
     return createLevel(colorTubes, emptyTubes);
   }
-  print('   Done!');
 }
 
 class Level {
@@ -123,7 +127,7 @@ class Level {
   }
 
   Future<bool> calculateAndSave() async {
-    var success = await findPaths(10);
+    var success = await findPaths(5);
     if (!success) return false;
     await saveFile();
     return true;
@@ -226,16 +230,16 @@ class Level {
   }
 
   Future<bool> findPaths(int number) async {
+    var maxTries = 25;
     while (number > 0) {
+      maxTries--;
       var path = Path();
       var tubes = await path.calculatePath(this);
       if (isDone(tubes)) {
         paths.add(path);
         number--;
       } else {
-        print('   Too many tries');
-        print('   Paths not found');
-        return false;
+        if (maxTries < 1) return false;
       }
     }
     return true;
@@ -348,9 +352,9 @@ class Path {
       }
     });
     var miliseconds = 0;
-    while (miliseconds < 1000 * maxSeconds) {
-      await Future.delayed(Duration(milliseconds: 50));
-      miliseconds += 50;
+    while (miliseconds < maxMiliseconds) {
+      await Future.delayed(Duration(milliseconds: 10));
+      miliseconds += 10;
       if (!timer.isActive) return tubes;
     }
     if (timer.isActive) timer.cancel();
