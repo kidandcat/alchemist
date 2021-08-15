@@ -5,12 +5,9 @@ var TubeClass = preload("res://widgets/Tube.tscn")
 var colors = ["Purple", "Blue", "Red", "Green", "Yellow", "DarkBlue", "Grey", "Lime", "Orange", "Pink"]
 var tubes = []
 var animationSpeed = 0.1
-var clutterMode = true # true
 var coloredTubes = 0
 var emptyTubes = 0
 var moving = false
-var creatingNewLevel = false
-var tempSavedData = []
 var movements = 0
 const top = -600
 
@@ -24,45 +21,6 @@ func _ready():
 func showMinSteps():
 	var steps = Config.readMinMovementsForLevel(Config.levelIndex)
 	$CanvasLayer/GameUI.setSteps(steps)
-
-func recreate():
-	creatingNewLevel = true
-	$CanvasLayer/GameUI.setText("Creating level")
-	for t in tubes:
-		t.get_parent().remove_child(t)
-	tubes = []
-	for child in $Tubes.get_children():
-		$Tubes.remove_child(child)
-	for i in coloredTubes:
-		createTube(i, colors[i])
-	for i in emptyTubes:
-		createTube(i+coloredTubes, "")
-
-func clutter():
-	clutterMode = true
-	var oldAnimSpeed = animationSpeed
-	animationSpeed = 0
-	for i in Config.movements:
-		# progress bar
-		$CanvasLayer/Control/CenterContainer/ProgressBar.value = (i*100) / Config.movements
-		var tube
-		while true:
-			var rng = randi() % (emptyTubes + coloredTubes)
-			if rng >= tubes.size():
-				continue
-			tube = tubes[rng]
-			if ((selectedTube != null && hasFreeSpace(tube))
-				or (selectedTube == null && hasDots(tube))):
-				break
-		var event = InputEventMouseButton.new()
-		event.pressed = true
-		tube_input_event(get_viewport(), event, 0, tube)
-		yield(self, "move_end")
-	clutterMode = false
-	animationSpeed = oldAnimSpeed
-	$CanvasLayer/Control.visible = false
-	if creatingNewLevel:
-		_temp_save_level()
 
 func tube_input_event(viewport, event, shape_idx, tube):
 	if event is InputEventMouseButton && event.pressed && not moving:
@@ -143,7 +101,7 @@ func actionNodeSelected(node: Node2D):
 		if (hasFreeSpace(node)
 			and node != selectedTube
 			and selectedDot != null
-			and (clutterMode == true || nextDot == null || selectedDot.texture == nextDot.texture)):
+			and (nextDot == null || selectedDot.texture == nextDot.texture)):
 			moveDotToTube(node)
 			yield(self, "move_end")
 			if isVictory():
@@ -265,16 +223,6 @@ func _on_save_pressed():
 		data.append(dots)
 	Config.saveFile(data)
 
-func _temp_save_level():
-	var data = []
-	for tube in tubes:
-		var dots = []
-		for dot in tube.get_children():
-			if dot is Sprite:
-				dots.append(colorFromTexture(dot.texture.resource_path))
-		data.append(dots)
-	tempSavedData = data
-
 func _load_save_request():
 	for t in tubes:
 		t.get_parent().remove_child(t)
@@ -282,16 +230,7 @@ func _load_save_request():
 	movements = 0
 	selectedTube = null
 	$CanvasLayer/GameUI.resetSteps()
-	if creatingNewLevel:
-		var index = 0
-		for tube in tempSavedData:
-			var tubeNode = createTube(index, "")
-			for dot in tube:
-				addDots(tubeNode, dot, 1)
-			index += 1
-		clutterMode = false
-	else:
-		Config.readLevel(Config.levelIndex)
+	Config.readLevel(Config.levelIndex)
 	
 func _load_save_response(data):
 	if data == null:
@@ -303,22 +242,6 @@ func _load_save_response(data):
 			addDots(tubeNode, dot, 1)
 		index += 1
 	$CanvasLayer/GameUI.setLevel(Config.levelIndex)
-	clutterMode = false
-		
-func _on_Reload_pressed():
-	clutter()
-
-func _on_MatchIndexInput_text_changed(new_text):
-	Config.levelIndex = int(new_text)
-
-func _on_TubesInput_text_changed(new_text):
-	coloredTubes = int(new_text)
-
-func _on_EmptyInput_text_changed(new_text):
-	emptyTubes = int(new_text)
-
-func _on_Recreate_pressed():
-	recreate()
 
 func _on_GameUI_ui_restart():
 	_load_save_request()
