@@ -19,6 +19,11 @@ signal move_end
 func _ready():
 	randomize()
 	_load_save_request()
+	showMinSteps()
+	
+func showMinSteps():
+	var steps = Config.readMinMovementsForLevel(Config.levelIndex)
+	$CanvasLayer/GameUI.setSteps(steps)
 
 func recreate():
 	creatingNewLevel = true
@@ -145,8 +150,6 @@ func actionNodeSelected(node: Node2D):
 				Config.levelIndex += 1
 				Config.save_levels_done(Config.levelIndex)
 				var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
-				print("Min Steps: ", minSteps)
-				print("Movements: ", movements)
 				if movements <= minSteps:
 					Config.save_stars_done(Config.levelIndex)
 				_load_save_request()
@@ -176,6 +179,7 @@ func isVictory():
 func moveDotToTube(node: Node2D):
 	moving = true
 	movements += 1
+	$CanvasLayer/GameUI.upSteps()
 	var _selectedTube = selectedTube
 	selectedTube = null
 	var dot = getDotByY(_selectedTube, top)
@@ -277,6 +281,7 @@ func _load_save_request():
 	tubes = []
 	movements = 0
 	selectedTube = null
+	$CanvasLayer/GameUI.resetSteps()
 	if creatingNewLevel:
 		var index = 0
 		for tube in tempSavedData:

@@ -22,7 +22,7 @@ func _ready():
 
 func reconnectButtons():
 	var level = 1
-	for child in get_children():
+	for child in $Dots.get_children():
 		if child is LevelButtonClass:
 			child.connect("pressed", get_tree().root.get_node("Game"), "_on_level_pressed", [level])
 			if level < levelsDone:
