@@ -5,8 +5,11 @@ var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
 var server = "https://galax.be"
 var http = HTTPRequest.new()
 var levelIndex = 1
+var cacheLevelsDone
+var cacheStarsDone
 
 func _ready():
+	print("Config ready")
 	add_child(http)
 	http.connect("request_completed", self, "_on_request_completed")
 
@@ -30,7 +33,6 @@ func readFromFile(id):
 	game._load_save_response(json.result['tubes'])
 
 func save_levels_done(levels: int):
-	print("save levels done")
 	var done = load_levels_done()
 	if levels > done:
 		var file = File.new()

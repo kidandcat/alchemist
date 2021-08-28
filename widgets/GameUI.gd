@@ -35,7 +35,6 @@ func setSteps(steps: int):
 func _on_Restart_pressed():
 	emit_signal("ui_restart")
 
-
 func _on_Back_pressed():
 	if levelsMode:
 		get_tree().change_scene("res://Game.tscn")
