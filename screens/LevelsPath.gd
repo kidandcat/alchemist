@@ -10,6 +10,7 @@ onready var scroll = $MarginContainer/Scroll
 func _ready():
 	scroll.get_v_scrollbar().rect_scale.x = 0
 	setupLevelButtons(levelsDone +5)
+	$GameUI.levelsMode()
 	call_deferred("updateScroll")
 	
 func updateScroll():

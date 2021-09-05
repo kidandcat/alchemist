@@ -17,6 +17,8 @@ func _ready():
 	randomize()
 	_load_save_request()
 	showMinSteps()
+	$audioTube.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
+	$audioMove.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
 	
 func showMinSteps():
 	var steps = Config.readMinMovementsForLevel(Config.levelIndex)
@@ -95,6 +97,7 @@ func colorFromTexture(texture: String):
 			return "Lime"
 
 func actionNodeSelected(node: Node2D):
+	$audioMove.play()
 	if selectedTube:
 		var selectedDot = getDotByY(selectedTube, top)
 		var nextDot = getTopDot(node)
@@ -110,6 +113,8 @@ func actionNodeSelected(node: Node2D):
 				var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
 				if movements <= minSteps:
 					Config.save_stars_done(Config.levelIndex)
+				$WinAnimation.play()
+				yield(get_tree().create_timer(2), "timeout")
 				_load_save_request()
 		else:
 			toggleDot(selectedTube)
@@ -118,19 +123,24 @@ func actionNodeSelected(node: Node2D):
 
 func isVictory():
 	for tube in tubes:
-		var equalDots = 0
-		var color = ""
-		for dot in tube.get_children():
-			if dot is Sprite:
-				if color == "":
-					color = dot.texture.resource_path
+		if not isTubeCompleted(tube):
+			return false
+	return true
+
+func isTubeCompleted(tube):
+	var equalDots = 0
+	var color = ""
+	for dot in tube.get_children():
+		if dot is Sprite:
+			if color == "":
+				color = dot.texture.resource_path
+				equalDots += 1
+			else:
+				if dot.texture.resource_path == color:
 					equalDots += 1
 				else:
-					if dot.texture.resource_path == color:
-						equalDots += 1
-					else:
-						return false
-		if equalDots != 4 && equalDots != 0:
+					return false
+	if equalDots != 4 && equalDots != 0:
 			return false
 	return true
 
@@ -148,6 +158,8 @@ func moveDotToTube(node: Node2D):
 	node.add_child(dot)
 	dot.position = Vector2(0, top)
 	toggleDot(node)
+	if isTubeCompleted(node):
+		$audioTube.play()
 
 func moveDotToPosition2D(dot: Node2D, target: Position2D):
 	$Tween.interpolate_property(dot, "global_position", dot.global_position, target.global_position, animationSpeed,Tween.EASE_OUT,Tween.EASE_IN)
@@ -245,3 +257,8 @@ func _load_save_response(data):
 
 func _on_GameUI_ui_restart():
 	_load_save_request()
+
+
+func _on_AudioStreamPlayer_finished():
+	print("stop audio")
+	$AudioStreamPlayer.stop()
