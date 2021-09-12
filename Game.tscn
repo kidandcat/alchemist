@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Game.gd" type="Script" id=1]
 [ext_resource path="res://widgets/Logo.tscn" type="PackedScene" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://assets/camtatz/Buttons/BTN_GREEN_CIRCLE_OUT.png" type="Texture" id=5]
 [ext_resource path="res://assets/camtatz/Symbols & Text/SYMB_PLAY.png" type="Texture" id=6]
 [ext_resource path="res://assets/Allison-Regular.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://assets/camtatz/Buttons/BTN_ORANGE_CIRCLE_OUT.png" type="Texture" id=8]
+[ext_resource path="res://assets/camtatz/Buttons/BTN_ORANGE_CIRCLE_IN.png" type="Texture" id=9]
+[ext_resource path="res://assets/icons/image_2021-07-10_17-33-05.png" type="Texture" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 75
@@ -107,4 +110,37 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="LightMode" type="TextureButton" parent="."]
+margin_left = 320.346
+margin_top = 623.022
+margin_right = 458.346
+margin_bottom = 765.022
+rect_scale = Vector2( 0.5, 0.5 )
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="LightMode"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="LightMode/CenterContainer"]
+margin_left = 44.0
+margin_top = 46.0
+margin_right = 94.0
+margin_bottom = 96.0
+rect_min_size = Vector2( 50, 50 )
+texture = ExtResource( 10 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Play" to="." method="_on_Easy_pressed"]
+[connection signal="pressed" from="LightMode" to="." method="_on_LightMode_pressed"]

@@ -8,6 +8,12 @@ onready var stepsLabel = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContai
 var levelsMode = false
 var currentSteps = 0
 
+func _ready():
+	if Config.lightMode:
+		levelLabel.modulate = Color(0,0,0,1)
+		currentStepsLabel.modulate = Color(0,0,0,1)
+		stepsLabel.modulate = Color(0,0,0,1)
+
 func levelsMode():
 	$MarginContainer/HBoxContainer/Restart2.visible = false
 	levelsMode = true
