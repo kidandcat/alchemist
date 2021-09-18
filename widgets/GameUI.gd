@@ -2,9 +2,10 @@ extends Control
 
 signal ui_restart
 
-onready var levelLabel = $MarginContainer/HBoxContainer/VBoxContainer/LevelLabel
-onready var currentStepsLabel = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/CurrentSteps
-onready var stepsLabel = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/StepsLabel
+onready var levelLabel = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/LevelLabel
+onready var currentStepsLabel = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/CurrentSteps
+onready var stepsLabel = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/StepsLabel
+onready var restart = $MarginContainer/HBoxContainer/VBoxContainer/Restart2
 var levelsMode = false
 var currentSteps = 0
 
@@ -15,7 +16,7 @@ func _ready():
 		stepsLabel.modulate = Color(0,0,0,1)
 
 func levelsMode():
-	$MarginContainer/HBoxContainer/Restart2.visible = false
+	restart.visible = false
 	levelsMode = true
 
 func setText(text):

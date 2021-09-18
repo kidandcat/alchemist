@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://assets/tube.png" type="Texture" id=1]
+[ext_resource path="res://widgets/Tube.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 199.441, 554.299 )
@@ -8,7 +9,7 @@ extents = Vector2( 199.441, 554.299 )
 [node name="Tube1" type="Sprite"]
 position = Vector2( 320, 170 )
 scale = Vector2( 0.15, 0.15 )
-texture = ExtResource( 1 )
+script = ExtResource( 2 )
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -17,3 +18,8 @@ shape = SubResource( 1 )
 
 [node name="Position2D" type="Position2D" parent="."]
 position = Vector2( 0, -600 )
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Node2D"]
+texture = ExtResource( 1 )

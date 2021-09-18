@@ -1,7 +1,8 @@
 extends Node2D
 
 var selectedTube: Node2D = null
-var TubeClass = preload("res://widgets/Tube.tscn")
+const TubeClass = preload("res://widgets/Tube.tscn")
+const BallClass = preload("res://widgets/Ball.tscn")
 var colors = ["Purple", "Blue", "Red", "Green", "Yellow", "DarkBlue", "Grey", "Lime", "Orange", "Pink"]
 var tubes = []
 var animationSpeed = 0.1
@@ -14,6 +15,7 @@ const top = -600
 signal move_end
 
 func _ready():
+	setTubePositions()
 	randomize()
 	_load_save_request()
 	showMinSteps()
@@ -49,52 +51,27 @@ func addDots(tube: Node2D, color: String, number: int):
 		dot.position.y = targetY
 
 func createDot(color: String):
-	var dot: Sprite = Sprite.new()
+	var dot = BallClass.instance()
 	match color:
 		"Purple":
-			dot.texture = preload("res://assets/purple.png")
+			dot.set_purple()
 		"Green":
-			dot.texture = preload("res://assets/green.png")
+			dot.set_green()
 		"Red":
-			dot.texture = preload("res://assets/red.png")
+			dot.set_red()
 		"Yellow":
-			dot.texture = preload("res://assets/yellow.png")
+			dot.set_yellow()
 		"Blue":
-			dot.texture = preload("res://assets/blue.png")
+			dot.set_blue()
 		"DarkBlue":
-			dot.texture = preload("res://assets/darkblue.png")
-		"Grey":
-			dot.texture = preload("res://assets/grey.png")
+			dot.set_darkblue()
 		"Orange":
-			dot.texture = preload("res://assets/orange.png")
+			dot.set_orange()
 		"Pink":
-			dot.texture = preload("res://assets/pink.png")
+			dot.set_pink()
 		"Lime":
-			dot.texture = preload("res://assets/lime.png")
+			dot.set_lime()
 	return dot
-	
-func colorFromTexture(texture: String):
-	match texture:
-		"res://assets/purple.png":
-			return "Purple"
-		"res://assets/green.png":
-			return "Green"
-		"res://assets/red.png":
-			return "Red"
-		"res://assets/yellow.png":
-			return "Yellow"
-		"res://assets/blue.png":
-			return "Blue"
-		"res://assets/darkblue.png":
-			return "DarkBlue"
-		"res://assets/grey.png":
-			return "Grey"
-		"res://assets/orange.png":
-			return "Orange"
-		"res://assets/pink.png":
-			return "Pink"
-		"res://assets/lime.png":
-			return "Lime"
 
 func actionNodeSelected(node: Node2D):
 	$audioMove.play()
@@ -104,7 +81,7 @@ func actionNodeSelected(node: Node2D):
 		if (hasFreeSpace(node)
 			and node != selectedTube
 			and selectedDot != null
-			and (nextDot == null || selectedDot.texture == nextDot.texture)):
+			and (nextDot == null || selectedDot.color == nextDot.color)):
 			moveDotToTube(node)
 			yield(self, "move_end")
 			if isVictory():
@@ -131,12 +108,12 @@ func isTubeCompleted(tube):
 	var equalDots = 0
 	var color = ""
 	for dot in tube.get_children():
-		if dot is Sprite:
+		if dot is Ball:
 			if color == "":
-				color = dot.texture.resource_path
+				color = dot.color
 				equalDots += 1
 			else:
-				if dot.texture.resource_path == color:
+				if dot.color == color:
 					equalDots += 1
 				else:
 					return false
@@ -193,7 +170,7 @@ func toggleDot(node: Node2D):
 			
 func getDotByY(node: Node2D, y: int):
 	for dot in node.get_children():
-		if not dot is Sprite:
+		if not dot is Ball:
 			continue
 		if dot.position.y == y:
 			return dot
@@ -201,7 +178,7 @@ func getDotByY(node: Node2D, y: int):
 func getTopDot(node: Node2D):
 	var topNode = null
 	for dot in node.get_children():
-		if not dot is Sprite || dot.position.y == top:
+		if not dot is Ball || dot.position.y == top:
 			continue
 		if not topNode:
 			topNode = dot
@@ -212,7 +189,7 @@ func getTopDot(node: Node2D):
 
 func hasFreeSpace(node: Node2D):
 	for dot in node.get_children():
-		if not dot is Sprite:
+		if not dot is Ball:
 			continue
 		if dot.position.y == -200:
 			return false
@@ -220,7 +197,7 @@ func hasFreeSpace(node: Node2D):
 
 func hasDots(node: Node2D):
 	for dot in node.get_children():
-		if not dot is Sprite:
+		if not dot is Ball:
 			continue
 		return true
 	return false
@@ -230,8 +207,8 @@ func _on_save_pressed():
 	for tube in tubes:
 		var dots = []
 		for dot in tube.get_children():
-			if dot is Sprite:
-				dots.append(colorFromTexture(dot.texture.resource_path))
+			if dot is Ball:
+				dots.append(dot.color)
 		data.append(dots)
 	Config.saveFile(data)
 
@@ -262,3 +239,25 @@ func _on_GameUI_ui_restart():
 func _on_AudioStreamPlayer_finished():
 	print("stop audio")
 	$AudioStreamPlayer.stop()
+
+func setTubePositions():
+	var size = get_viewport_rect().size
+	print("size Y ", size.y)
+	$TextureRect.rect_size = size
+	$TextureRect.rect_min_size = size
+	
+	$Position2D5.position.y = size.y * 0.3
+	$Position2D6.position.y = size.y * 0.3
+	$Position2D7.position.y = size.y * 0.3
+	$Position2D8.position.y = size.y * 0.3
+	
+	$Position2D.position.y = size.y * 0.6
+	$Position2D2.position.y = size.y * 0.6
+	$Position2D3.position.y = size.y * 0.6
+	$Position2D4.position.y = size.y * 0.6
+	
+	$Position2D9.position.y = size.y  * 0.85
+	$Position2D10.position.y = size.y * 0.85
+	$Position2D11.position.y = size.y * 0.85
+	$Position2D12.position.y = size.y * 0.85
+	

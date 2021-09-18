@@ -14,44 +14,43 @@ bg_color = Color( 0.121569, 0.137255, 0.2, 1 )
 script = ExtResource( 8 )
 
 [node name="TextureRect" parent="." instance=ExtResource( 2 )]
-rect_min_size = Vector2( 400, 1500 )
 mouse_filter = 2
 
 [node name="Position2D5" type="Position2D" parent="."]
-position = Vector2( 80, 370 )
+position = Vector2( 80, 400 )
 
 [node name="Position2D6" type="Position2D" parent="."]
-position = Vector2( 160, 370 )
+position = Vector2( 160, 400 )
 
 [node name="Position2D7" type="Position2D" parent="."]
-position = Vector2( 240, 370 )
+position = Vector2( 240, 400 )
 
 [node name="Position2D8" type="Position2D" parent="."]
-position = Vector2( 320, 370 )
+position = Vector2( 320, 400 )
 
 [node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 80, 170 )
+position = Vector2( 80, 200 )
 
 [node name="Position2D2" type="Position2D" parent="."]
-position = Vector2( 160, 170 )
+position = Vector2( 160, 200 )
 
 [node name="Position2D3" type="Position2D" parent="."]
-position = Vector2( 240, 170 )
+position = Vector2( 240, 200 )
 
 [node name="Position2D4" type="Position2D" parent="."]
-position = Vector2( 320, 170 )
+position = Vector2( 320, 200 )
 
 [node name="Position2D9" type="Position2D" parent="."]
-position = Vector2( 80, 570 )
+position = Vector2( 80, 600 )
 
 [node name="Position2D10" type="Position2D" parent="."]
-position = Vector2( 160, 570 )
+position = Vector2( 160, 600 )
 
 [node name="Position2D11" type="Position2D" parent="."]
-position = Vector2( 240, 570 )
+position = Vector2( 240, 600 )
 
 [node name="Position2D12" type="Position2D" parent="."]
-position = Vector2( 320, 570 )
+position = Vector2( 320, 600 )
 
 [node name="Tubes" type="Node2D" parent="."]
 

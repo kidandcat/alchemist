@@ -110,19 +110,42 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LightMode" type="TextureButton" parent="."]
-margin_left = 320.346
-margin_top = 623.022
-margin_right = 458.346
-margin_bottom = 765.022
-rect_scale = Vector2( 0.5, 0.5 )
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 1.41418
+margin_right = 1.41418
+mouse_filter = 2
+alignment = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CenterContainer" type="CenterContainer" parent="LightMode"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 600.0
+margin_right = 400.0
+margin_bottom = 700.0
+alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer"]
+margin_left = 300.0
+margin_right = 400.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 100 )
+custom_constants/margin_right = 20
+custom_constants/margin_bottom = 20
+
+[node name="LightMode" type="TextureButton" parent="VBoxContainer/HBoxContainer/MarginContainer"]
+margin_right = 80.0
+margin_bottom = 80.0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/MarginContainer/LightMode"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -130,11 +153,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect" type="TextureRect" parent="LightMode/CenterContainer"]
-margin_left = 44.0
-margin_top = 46.0
-margin_right = 94.0
-margin_bottom = 96.0
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/MarginContainer/LightMode/CenterContainer"]
+margin_left = 15.0
+margin_top = 15.0
+margin_right = 65.0
+margin_bottom = 65.0
 rect_min_size = Vector2( 50, 50 )
 texture = ExtResource( 10 )
 expand = true
@@ -143,4 +166,4 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/Play" to="." method="_on_Easy_pressed"]
-[connection signal="pressed" from="LightMode" to="." method="_on_LightMode_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/MarginContainer/LightMode" to="." method="_on_LightMode_pressed"]

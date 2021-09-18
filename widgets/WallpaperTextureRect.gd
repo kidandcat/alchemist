@@ -18,7 +18,7 @@ func lightMode():
 func darkMode():
 	var g = GradientTexture.new()
 	var gradient = Gradient.new()
-	gradient.set_color(0, Color(.19, .21, .48, 255))
-	gradient.set_color(1, Color(.11, .11, .23, 255))
+	gradient.set_color(0, Color(.09, .11, .25, 255))
+	gradient.set_color(1, Color(.10, .12, .26, 255))
 	g.gradient = gradient
 	texture = g
