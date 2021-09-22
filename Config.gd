@@ -12,14 +12,6 @@ var cacheStarsDone
 func _ready():
 	print("Config ready")
 	add_child(http)
-	http.connect("request_completed", self, "_on_request_completed")
-
-func saveFile(data):
-	var query = JSON.print(data)
-	var headers = ["Content-Type: application/json"]
-	print("post ", server+"/create/level")
-	var err = http.request(server+"/create/level", headers, true, HTTPClient.METHOD_POST, query)
-	print("Error: ", err)
 	
 func readLevel(id):
 	readFromFile(id)
