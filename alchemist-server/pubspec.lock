@@ -57,13 +57,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.8.0"
-  pedantic:
-    dependency: "direct dev"
+  redis:
+    dependency: "direct main"
     description:
-      name: pedantic
+      name: redis
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.11.1"
+    version: "2.0.0"
   shelf:
     dependency: "direct main"
     description:
