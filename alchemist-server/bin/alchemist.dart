@@ -14,6 +14,10 @@ void main() async {
     return Response.ok('100');
   });
 
+  app.post('/levels/resolve/<id>', (Request request, String id) {
+    return Response.ok('100');
+  });
+
   app.get('/levels/<id>', (Request request, String id) async {
     return Response.ok(await File('levels/match-$id.json').readAsString());
   });

@@ -1,5 +1,7 @@
 extends Node
 
+signal newlevel
+
 var lightMode = false
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
@@ -8,17 +10,74 @@ var http = HTTPRequest.new()
 var levelIndex = 1
 var cacheLevelsDone
 var cacheStarsDone
+var levelsCount = 100
+var levelFetchIndex = 1
 
 func _ready():
-	print("Config ready")
 	add_child(http)
+	http.connect("request_completed", self, "_on_request_completed")
+	fetchLevels()
+	
+func readDay() -> int:
+	var directory = Directory.new();
+	if not directory.file_exists("user://last_fetch.dat"):
+		return -1
+	var file = File.new()
+	file.open("user://last_fetch.dat", File.READ)
+	var content = file.get_as_text()
+	file.close()
+	return int(content)
+	
+func writeDay():
+	var time = OS.get_datetime()
+	var dayofmonth = time["day"]
+	var file = File.new()
+	file.open("user://last_fetch.dat", File.WRITE)
+	file.store_line(str(dayofmonth))
+	file.close()
 	
 func readLevel(id):
 	readFromFile(id)
 	
+func fetchLevels():	
+	var time = OS.get_datetime()
+	var dayofmonth = time["day"]
+	if readDay() != dayofmonth:
+		var dir = Directory.new()
+		dir.remove("user://game.save")
+		dir.remove("user://stars.save")
+		dir.remove("user://levels")
+		dir.make_dir("user://levels")
+		writeDay()
+		fetchLevel()
+
+func countLevels():
+	var total = 0
+	var dir = Directory.new()
+	dir.open("user://levels")
+	dir.list_dir_begin()
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+		elif not file.begins_with("."):
+			total += 1
+	dir.list_dir_end()
+	return total
+
+func fetchLevel():
+	http.set_download_file("user://levels/match-%s.json" % levelFetchIndex)
+	http.request("https://galax.be/levels/%s" % levelFetchIndex)
+
+func _on_request_completed(result, response_code, headers, body):
+	emit_signal("newlevel", levelFetchIndex)
+	levelFetchIndex += 1
+	if levelFetchIndex <= 100:
+		fetchLevel()
+	
 func readFromFile(id):
 	var file = File.new()
-	file.open("res://alchemist-server/levels/match-%s.json" % id, file.READ)
+	file.open("user://levels/match-%s.json" % id, file.READ)
 	var text = file.get_as_text()
 	var json = JSON.parse(text)
 	file.close()
@@ -64,7 +123,7 @@ func load_stars_done() -> Array:
 
 func readMinMovementsForLevel(id):
 	var file = File.new()
-	file.open("res://alchemist-server/levels/match-%s.json" % id, file.READ)
+	file.open("user://levels/match-%s.json" % id, file.READ)
 	var text = file.get_as_text()
 	var json = JSON.parse(text)
 	file.close()

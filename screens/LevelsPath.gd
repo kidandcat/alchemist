@@ -9,14 +9,9 @@ onready var scroll = $MarginContainer/Scroll
 
 func _ready():
 	scroll.get_v_scrollbar().rect_scale.x = 0
-	setupLevelButtons(levelsDone +5)
+	setupLevelButtons()
 	$GameUI.levelsMode()
-	call_deferred("updateScroll")
-	
-func updateScroll():
-	yield(get_tree().create_timer(.1), "timeout")
-	scroll.scroll_vertical = scroll.get_v_scrollbar().max_value
-	scroll.update()
+	Config.connect("newlevel", self, "setupLevelButton")	
 
 func _on_level_pressed(level: int):
 	var levelsDone = Config.load_levels_done()
@@ -24,19 +19,10 @@ func _on_level_pressed(level: int):
 		Config.levelIndex = level
 		get_tree().change_scene("res://screens/Game.tscn")
 
-func saveScene():
-	var packed_scene = PackedScene.new()
-	var node = get_tree().root.get_node("Game/Path")
-	packed_scene.pack(node)
-	var err = ResourceSaver.save(customLevelsScene, packed_scene)
-
-func loadScene():
-	var levelsScene = load(customLevelsScene)
-	var my_scene = levelsScene.instance()
-	add_child(my_scene)
-
-func setupLevelButtons(nOfLevels: int):
-	for level in range(1, nOfLevels):
+func setupLevelButtons():
+	for child in $MarginContainer/Scroll/Dots.get_children():
+		child.queue_free()
+	for level in range(1, Config.countLevels()):
 		setupLevelButton(level)
 
 func setupLevelButton(level: int):
