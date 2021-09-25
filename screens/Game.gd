@@ -21,6 +21,10 @@ func _ready():
 	showMinSteps()
 	$audioTube.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
 	$audioMove.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
+	connect("move_end", self, "move_ended")
+	
+func move_ended():
+	moving = false
 	
 func showMinSteps():
 	var steps = Config.readMinMovementsForLevel(Config.levelIndex)
@@ -28,6 +32,7 @@ func showMinSteps():
 
 func tube_input_event(viewport, event, shape_idx, tube):
 	if event is InputEventMouseButton && event.pressed && not moving:
+		moving = true
 		call_deferred("actionNodeSelected", tube)
 
 func createTube(index: int, color: String):
@@ -122,7 +127,6 @@ func isTubeCompleted(tube):
 	return true
 
 func moveDotToTube(node: Node2D):
-	moving = true
 	movements += 1
 	$CanvasLayer/GameUI.upSteps()
 	var _selectedTube = selectedTube
@@ -153,7 +157,6 @@ func toggleDot(node: Node2D):
 		$Tween.start()
 		yield($Tween, "tween_completed")
 		selectedTube = null
-		moving = false
 		emit_signal("move_end")
 		return
 	dot = getTopDot(node)
@@ -162,10 +165,6 @@ func toggleDot(node: Node2D):
 		$Tween.start()
 		yield($Tween, "tween_completed")
 		selectedTube = node
-		moving = false
-		emit_signal("move_end")
-		return
-	moving = false
 	emit_signal("move_end")
 			
 func getDotByY(node: Node2D, y: int):
