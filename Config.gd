@@ -6,13 +6,13 @@ signal coins
 var lightMode = false
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
-var server = "http://localhost:8080"#"https://galax.be"
+#var server = "http://localhost:8080"
+var server = "https://galax.be"
 var http = HTTPRequest.new()
 var httpResolve = HTTPRequest.new()
 var httpCoins = HTTPRequest.new()
 var levelIndex = 1
 var cacheLevelsDone
-var cacheStarsDone
 var levelsCount = 100
 var levelFetchIndex = 1
 var coins = 0
@@ -51,13 +51,16 @@ func readLevel(id):
 func fetchLevels():	
 	var time = OS.get_datetime()
 	var dayofmonth = time["day"]
+	var countlvls = countLevels()
 	if readDay() != dayofmonth:
 		var dir = Directory.new()
 		dir.remove("user://game.save")
-		dir.remove("user://stars.save")
 		remove_recursive("user://levels")
 		dir.make_dir("user://levels")
 		writeDay()
+		fetchLevel()
+	elif countlvls < levelsCount:
+		levelFetchIndex = countlvls
 		fetchLevel()
 
 func countLevels():
@@ -91,7 +94,6 @@ func resolveLevel(moves):
 		"Content-Type: application/json",
 		"Authorization: " + OS.get_unique_id()
 	]
-	print("URL ", server+"/levels/resolve/%s" % levelIndex)
 	httpResolve.request(server+"/levels/resolve/%s" % levelIndex, headers, true, HTTPClient.METHOD_POST, query)
 
 func _on_request_completed(result, response_code, headers, body):
@@ -130,26 +132,6 @@ func load_levels_done() -> int:
 		file.close()
 	return levels
 
-func save_stars_done(number):
-	var file = File.new()
-	if file.file_exists("user://stars.save"):
-		file.open("user://stars.save", File.READ_WRITE)
-		file.seek_end()
-	else:
-		file.open("user://stars.save", File.WRITE)
-	file.store_32(number)
-	file.close()
-
-func load_stars_done() -> Array:
-	var stars = []
-	var file = File.new()
-	if file.file_exists("user://stars.save"):
-		file.open("user://stars.save", File.READ)
-		while file.get_len() != file.get_position():
-			stars.append(file.get_32())
-		file.close()
-	return stars
-
 func readMinMovementsForLevel(id):
 	var file = File.new()
 	file.open("user://levels/match-%s.json" % id, file.READ)
@@ -183,5 +165,4 @@ func remove_recursive(path):
 		print("Error removing " + path)
 
 func _on_resolve_completed(result, response_code, headers, body):
-	print("_on_resolve_completed  ", response_code, " - ", body.get_string_from_utf8())
 	fetchCoins()

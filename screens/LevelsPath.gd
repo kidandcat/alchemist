@@ -4,7 +4,6 @@ var LevelButton = preload("res://widgets/LevelButton.tscn")
 var customLevelsScene = "user://LevelsPathCurrent.tscn"
 
 onready var levelsDone = Config.load_levels_done()
-onready var stars = Config.load_stars_done()
 onready var scroll = $MarginContainer/Scroll
 
 func _ready():
@@ -30,9 +29,9 @@ func setupLevelButton(level: int):
 	if level < levelsDone:
 		button.done()
 		button.empty()
-	if stars.has(level+1):
 		button.star()
 	if level == levelsDone:
 		button.next()
 	button.connect("pressed", self, "_on_level_pressed", [level])
 	$MarginContainer/Scroll/Dots.add_child(button)
+

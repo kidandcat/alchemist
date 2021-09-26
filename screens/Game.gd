@@ -19,17 +19,12 @@ func _ready():
 	setTubePositions()
 	randomize()
 	_load_save_request()
-	showMinSteps()
 	$audioTube.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
 	$audioMove.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
 	connect("move_end", self, "move_ended")
 		
 func move_ended():
 	moving = false
-	
-func showMinSteps():
-	var steps = Config.readMinMovementsForLevel(Config.levelIndex)
-	$CanvasLayer/GameUI.setSteps(steps)
 
 func tube_input_event(viewport, event, shape_idx, tube):
 	if event is InputEventMouseButton && event.pressed && not moving:
@@ -103,8 +98,6 @@ func finish():
 	Config.levelIndex += 1
 	Config.save_levels_done(Config.levelIndex)
 	var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
-	if movements <= minSteps:
-		Config.save_stars_done(Config.levelIndex)
 	$WinAnimation.play()
 	yield(get_tree().create_timer(2), "timeout")
 	_load_save_request()
@@ -138,7 +131,6 @@ func moveDotToTube(node: Node2D):
 		"to": tubes.find(node),
 	})
 	movements += 1
-	$CanvasLayer/GameUI.upSteps()
 	var _selectedTube = selectedTube
 	selectedTube = null
 	var dot = getDotByY(_selectedTube, top)
@@ -228,7 +220,6 @@ func _load_save_request():
 	moves = []
 	movements = 0
 	selectedTube = null
-	$CanvasLayer/GameUI.resetSteps()
 	Config.readLevel(Config.levelIndex)
 	
 func _load_save_response(data):
