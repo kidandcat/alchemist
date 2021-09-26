@@ -16,7 +16,8 @@ void main() async {
     return Response.ok('100');
   });
 
-  app.post('/levels/resolve/<id>', (Request request, int id) async {
+  app.post('/levels/resolve/<id>', (Request request, String idparam) async {
+    var id = int.parse(idparam);
     print('Resolve $id');
     if (!files.containsKey(id)) return Response.notFound('Level $id not found');
     var body = await request.readAsString();
