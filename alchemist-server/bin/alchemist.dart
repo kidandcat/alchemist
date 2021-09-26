@@ -18,7 +18,8 @@ void main() async {
 
   app.post('/levels/resolve/<id>', (Request request, String id) async {
     print('Resolve $id');
-    if (files[id] == null) return Response.notFound(null);
+    if (!files.containsKey(int.parse(id)))
+      return Response.notFound('Level $id not found');
     var body = await request.readAsString();
     print('Resolve body $body');
     var level = Level.fromJson(files[id]!);
