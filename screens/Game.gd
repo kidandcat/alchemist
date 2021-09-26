@@ -23,7 +23,7 @@ func _ready():
 	$audioTube.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
 	$audioMove.stream.loop_mode = AudioStreamSample.LOOP_DISABLED
 	connect("move_end", self, "move_ended")
-	
+		
 func move_ended():
 	moving = false
 	
@@ -98,7 +98,8 @@ func actionNodeSelected(node: Node2D):
 		toggleDot(node)
 
 func finish():
-	print("Finished, movements: ", moves)
+
+	Config.resolveLevel(moves)
 	Config.levelIndex += 1
 	Config.save_levels_done(Config.levelIndex)
 	var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)

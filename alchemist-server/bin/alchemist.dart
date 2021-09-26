@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:alchemist/Level.dart';
 import 'package:alchemist/Path.dart';
+import 'package:alchemist/database.dart';
 import 'package:alchemist/generator.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf.dart';
@@ -11,23 +12,32 @@ import 'package:shelf/shelf_io.dart' as io;
 void main() async {
   var files = await gen();
   var app = Router();
+  var db = Database();
 
   app.get('/levels/count', (Request request) {
     return Response.ok('100');
   });
 
   app.post('/levels/resolve/<id>', (Request request, String idparam) async {
+    var token = request.headers['Authorization'];
+    if (token == null) return Response.notFound('Not Authorized');
     var id = int.parse(idparam);
-    print('Resolve $id');
     if (!files.containsKey(id)) return Response.notFound('Level $id not found');
     var body = await request.readAsString();
-    print('Resolve body $body');
     var level = Level.fromJson(files[id]!);
     var path = Path.fromJson(body);
     if (await level.resolve(path)) {
+      db.increase('$token-coins');
       return Response.ok('OK');
     }
     return Response.ok('KO');
+  });
+
+  app.get('/coins', (Request request) async {
+    var token = request.headers['Authorization'];
+    if (token == null) return Response.notFound('Not Authorized');
+    var coins = await db.read('$token-coins');
+    return Response.ok(coins ?? '0');
   });
 
   app.get('/levels/<id>', (Request request, String id) async {

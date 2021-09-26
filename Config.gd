@@ -1,24 +1,31 @@
 extends Node
 
 signal newlevel
+signal coins
 
 var lightMode = false
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
-var server = "https://galax.be"
+var server = "http://localhost:8080"#"https://galax.be"
 var http = HTTPRequest.new()
 var httpResolve = HTTPRequest.new()
+var httpCoins = HTTPRequest.new()
 var levelIndex = 1
 var cacheLevelsDone
 var cacheStarsDone
 var levelsCount = 100
 var levelFetchIndex = 1
+var coins = 0
 
 func _ready():
 	add_child(http)
+	add_child(httpResolve)
+	add_child(httpCoins)
 	http.connect("request_completed", self, "_on_request_completed")
 	httpResolve.connect("request_completed", self, "_on_resolve_completed")
+	httpCoins.connect("request_completed", self, "_on_coins_completed")
 	fetchLevels()
+	fetchCoins()
 	
 func readDay() -> int:
 	var directory = Directory.new();
@@ -69,18 +76,33 @@ func countLevels():
 
 func fetchLevel():
 	http.set_download_file("user://levels/match-%s.json" % levelFetchIndex)
-	http.request("https://galax.be/levels/%s" % levelFetchIndex)
+	http.request(server+"/levels/%s" % levelFetchIndex)
+
+func fetchCoins():
+	var headers = [
+		"Content-Type: application/json",
+		"Authorization: " + OS.get_unique_id()
+	]
+	httpCoins.request(server+"/coins", headers)
 
 func resolveLevel(moves):
 	var query = JSON.print(moves)
-	var headers = ["Content-Type: application/json"]
-	httpResolve.request("https://galax.be/levels/resolve/%s" % levelIndex, headers, true, HTTPClient.METHOD_POST, query)
+	var headers = [
+		"Content-Type: application/json",
+		"Authorization: " + OS.get_unique_id()
+	]
+	print("URL ", server+"/levels/resolve/%s" % levelIndex)
+	httpResolve.request(server+"/levels/resolve/%s" % levelIndex, headers, true, HTTPClient.METHOD_POST, query)
 
 func _on_request_completed(result, response_code, headers, body):
 	emit_signal("newlevel", levelFetchIndex)
 	levelFetchIndex += 1
 	if levelFetchIndex <= 100:
 		fetchLevel()
+
+func _on_coins_completed(result, response_code, headers, body):
+	coins = int(body.get_string_from_utf8())
+	emit_signal("coins")
 	
 func readFromFile(id):
 	var file = File.new()
@@ -161,4 +183,5 @@ func remove_recursive(path):
 		print("Error removing " + path)
 
 func _on_resolve_completed(result, response_code, headers, body):
-	print("_on_resolve_completed  ", response_code, " - ", body)
+	print("_on_resolve_completed  ", response_code, " - ", body.get_string_from_utf8())
+	fetchCoins()
