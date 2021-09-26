@@ -165,4 +165,5 @@ func remove_recursive(path):
 		print("Error removing " + path)
 
 func _on_resolve_completed(result, response_code, headers, body):
-	fetchCoins()
+	if body.get_string_from_utf8() == "OK":
+		fetchCoins()

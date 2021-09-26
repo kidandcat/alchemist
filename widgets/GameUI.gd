@@ -4,21 +4,21 @@ signal ui_restart
 
 onready var levelLabel = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/LevelLabel
 onready var restart = $MarginContainer/HBoxContainer/HBoxContainer/VBoxContainer/Restart2
-onready var coins = $MarginContainer/HBoxContainer/HBoxContainer/MarginContainer/Coins
+onready var coins = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2/HBoxContainer/Coins
+onready var coinSprite = $MarginContainer/HBoxContainer/MarginContainer/VBoxContainer/MarginContainer/HBoxContainer2/HBoxContainer/CoinSprite
 var levelsMode = false
 var currentSteps = 0
 
 func _ready():
-	Config.connect("coins", self, "update_coins")
 	update_coins()
 	if Config.lightMode:
 		levelLabel.modulate = Color(0,0,0,1)
 
 func update_coins():
-	coins.text = "Coins %s" % Config.coins
+	coins.text = "%s" % Config.coins
 
 func levelsMode():
-	restart.visible = false
+	restart.modulate = Color(0,0,0,0)
 	levelsMode = true
 
 func setText(text):

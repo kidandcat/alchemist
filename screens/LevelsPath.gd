@@ -30,7 +30,7 @@ func setupLevelButton(level: int):
 		button.done()
 		button.empty()
 		button.star()
-	if level == levelsDone:
+	elif level == levelsDone || level == 1:
 		button.next()
 	button.connect("pressed", self, "_on_level_pressed", [level])
 	$MarginContainer/Scroll/Dots.add_child(button)

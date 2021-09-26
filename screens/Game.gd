@@ -93,13 +93,12 @@ func actionNodeSelected(node: Node2D):
 		toggleDot(node)
 
 func finish():
-
 	Config.resolveLevel(moves)
 	Config.levelIndex += 1
 	Config.save_levels_done(Config.levelIndex)
 	var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
 	$WinAnimation.play()
-	yield(get_tree().create_timer(2), "timeout")
+	yield(get_tree().create_timer(3), "timeout")
 	_load_save_request()
 
 func isVictory():
