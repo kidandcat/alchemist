@@ -58,6 +58,7 @@ class Level {
   Future<void> saveFile() async {
     var id = await nextLevel();
     var file = File('levels/match-$id.json');
+    paths = []; // Empty paths, we don't want to save them
     await file.writeAsString(toJson());
   }
 
@@ -152,6 +153,18 @@ class Level {
       }
     }
     return true;
+  }
+
+  Future<bool> resolve(Path path) async {
+    var tubes = getTubes();
+    for (var move in path.movements) {
+      var dot = tubes[move.from].getDot();
+      if (dot == null) return false;
+      var ok = tubes[move.to].addDotValidating(dot);
+      if (!ok) return false;
+      tubes[move.from].removeLast();
+    }
+    return Level.isDone(tubes);
   }
 
   @override

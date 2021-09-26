@@ -10,6 +10,7 @@ var coloredTubes = 0
 var emptyTubes = 0
 var moving = false
 var movements = 0
+var moves = []
 const top = -600
 
 signal move_end
@@ -90,18 +91,22 @@ func actionNodeSelected(node: Node2D):
 			moveDotToTube(node)
 			yield(self, "move_end")
 			if isVictory():
-				Config.levelIndex += 1
-				Config.save_levels_done(Config.levelIndex)
-				var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
-				if movements <= minSteps:
-					Config.save_stars_done(Config.levelIndex)
-				$WinAnimation.play()
-				yield(get_tree().create_timer(2), "timeout")
-				_load_save_request()
+				finish()
 		else:
 			toggleDot(selectedTube)
 	else:
 		toggleDot(node)
+
+func finish():
+	print("Finished, movements: ", moves)
+	Config.levelIndex += 1
+	Config.save_levels_done(Config.levelIndex)
+	var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
+	if movements <= minSteps:
+		Config.save_stars_done(Config.levelIndex)
+	$WinAnimation.play()
+	yield(get_tree().create_timer(2), "timeout")
+	_load_save_request()
 
 func isVictory():
 	for tube in tubes:
@@ -127,6 +132,10 @@ func isTubeCompleted(tube):
 	return true
 
 func moveDotToTube(node: Node2D):
+	moves.append({
+		"from": tubes.find(selectedTube),
+		"to": tubes.find(node),
+	})
 	movements += 1
 	$CanvasLayer/GameUI.upSteps()
 	var _selectedTube = selectedTube
@@ -215,6 +224,7 @@ func _load_save_request():
 	for t in tubes:
 		t.get_parent().remove_child(t)
 	tubes = []
+	moves = []
 	movements = 0
 	selectedTube = null
 	$CanvasLayer/GameUI.resetSteps()

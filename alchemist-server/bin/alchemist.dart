@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:alchemist/Level.dart';
+import 'package:alchemist/Path.dart';
 import 'package:alchemist/generator.dart';
 import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf/shelf.dart';
@@ -14,8 +16,17 @@ void main() async {
     return Response.ok('100');
   });
 
-  app.post('/levels/resolve/<id>', (Request request, String id) {
-    return Response.ok('100');
+  app.post('/levels/resolve/<id>', (Request request, String id) async {
+    print('Resolve $id');
+    if (files[id] == null) return Response.notFound(null);
+    var body = await request.readAsString();
+    print('Resolve body $body');
+    var level = Level.fromJson(files[id]!);
+    var path = Path.fromJson(body);
+    if (await level.resolve(path)) {
+      return Response.ok('OK');
+    }
+    return Response.ok('KO');
   });
 
   app.get('/levels/<id>', (Request request, String id) async {
@@ -43,7 +54,7 @@ Future<Map<int, String>> gen() async {
   }
   Map<int, String> files = {};
   for (var i = 1; i <= 100; i++) {
-    files[i] = File('levels/match-$i.json').readAsStringSync();
+    files[i] = await File('levels/match-$i.json').readAsString();
   }
   return files;
 }
