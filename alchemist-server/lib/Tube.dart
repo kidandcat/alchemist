@@ -53,8 +53,9 @@ class Tube {
     return dots;
   }
 
-  factory Tube.fromMap(List<String> dots) {
-    return Tube(dots: dots);
+  factory Tube.fromMap(List<dynamic> dots) {
+    var d = List<String>.from(dots);
+    return Tube(dots: d);
   }
 
   String toJson() => json.encode(toMap());

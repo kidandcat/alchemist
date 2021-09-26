@@ -7,23 +7,16 @@ import 'package:alchemist/constants.dart';
 import 'package:alchemist/utils.dart';
 
 class Level {
-  late List<Tube> tubes;
+  List<Tube> tubes;
   List<Path> paths = [];
 
   Level({
-    List<Tube>? tubes,
-    List<Path>? paths,
+    this.tubes: const [],
+    this.paths: const [],
     int? emptyTubes,
     int? colorTubes,
     int clutterIterations = 100,
   }) {
-    if (tubes == null) {
-      this.tubes = [];
-    }
-    if (paths == null) {
-      this.paths = [];
-    }
-
     if (emptyTubes != null && colorTubes != null) {
       for (var i = 0; i < emptyTubes; i++) {
         addEmptyTube();
@@ -71,8 +64,8 @@ class Level {
 
   factory Level.fromMap(Map<String, dynamic> map) {
     return Level(
-      tubes: List<Tube>.from(map['Tubes']?.map((x) => Tube.fromMap(x))),
-      paths: List<Path>.from(map['Paths']?.map((x) => Path.fromMap(x))),
+      tubes: List<Tube>.from(map['tubes']?.map((x) => Tube.fromMap(x))),
+      paths: List<Path>.from(map['paths']?.map((x) => Path.fromMap(x))),
     );
   }
 

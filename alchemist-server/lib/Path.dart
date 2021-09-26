@@ -8,14 +8,10 @@ import 'package:alchemist/constants.dart';
 import 'package:alchemist/utils.dart';
 
 class Path {
-  late List<Movement> movements;
+  List<Movement> movements;
   Path({
-    movements,
-  }) {
-    if (movements == null) {
-      this.movements = [];
-    }
-  }
+    this.movements: const [],
+  });
 
   Future<List<Tube>> calculatePath(Level level) async {
     var tubes = level.getTubes();
@@ -57,9 +53,9 @@ class Path {
   @override
   String toString() => 'Path(movements: $movements)';
 
-  factory Path.fromMap(Map<String, dynamic> map) {
+  factory Path.fromMap(List<dynamic> data) {
     return Path(
-      movements: List<Movement>.from(map['movements'] as List<dynamic>),
+      movements: data.map((m) => Movement.fromMap(m)).toList(),
     );
   }
 
