@@ -7,16 +7,19 @@ import 'package:alchemist/constants.dart';
 import 'package:alchemist/utils.dart';
 
 class Level {
-  List<Tube> tubes;
+  List<Tube> tubes = [];
   List<Path> paths = [];
 
   Level({
-    this.tubes: const [],
-    this.paths: const [],
+    List<Tube>? tubes,
+    List<Path>? paths,
     int? emptyTubes,
     int? colorTubes,
     int clutterIterations = 100,
   }) {
+    this.tubes = tubes ?? [];
+    this.paths = paths ?? [];
+
     if (emptyTubes != null && colorTubes != null) {
       for (var i = 0; i < emptyTubes; i++) {
         addEmptyTube();

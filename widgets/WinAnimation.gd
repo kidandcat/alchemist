@@ -3,10 +3,11 @@ extends Node2D
 onready var prevCoins = Config.coins
 onready var gameUI = get_tree().root.get_node("Game/CanvasLayer/GameUI")
 
-func ready():
+func _ready():
 	Config.connect("coins", self, "update_coins")
 	
 func update_coins():
+	print("prev coins ", prevCoins, "  Config.coins: ", Config.coins)
 	if prevCoins != Config.coins:
 		play()
 

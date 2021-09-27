@@ -22,6 +22,13 @@ class Database {
     await cmd?.send_object(["SET", key, value]);
   }
 
+  Future<void> deleteBatch(String pattern) async {
+    var keys = await cmd?.send_object(["KEYS", pattern]);
+    if (keys != null && keys.length > 0) {
+      await cmd?.send_object(["DEL", ...keys]);
+    }
+  }
+
   Future<void> increase(String key) async {
     await cmd?.send_object(["INCR", key]);
   }

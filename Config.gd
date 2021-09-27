@@ -6,8 +6,8 @@ signal coins
 var lightMode = false
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
-#var server = "http://localhost:8080"
-var server = "https://galax.be"
+var server = "http://localhost:8080"
+#var server = "https://galax.be"
 var http = HTTPRequest.new()
 var httpResolve = HTTPRequest.new()
 var httpCoins = HTTPRequest.new()
@@ -105,6 +105,7 @@ func _on_request_completed(result, response_code, headers, body):
 func _on_coins_completed(result, response_code, headers, body):
 	coins = int(body.get_string_from_utf8())
 	emit_signal("coins")
+	print("signal emitted coins")
 	
 func readFromFile(id):
 	var file = File.new()

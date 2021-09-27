@@ -97,7 +97,6 @@ func finish():
 	Config.levelIndex += 1
 	Config.save_levels_done(Config.levelIndex)
 	var minSteps = Config.readMinMovementsForLevel(Config.levelIndex-1)
-	$WinAnimation.play()
 	yield(get_tree().create_timer(3), "timeout")
 	_load_save_request()
 

@@ -10,9 +10,9 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as io;
 
 void main() async {
-  var files = await gen();
   var app = Router();
   var db = Database();
+  var files = await gen(db);
 
   app.get('/levels/count', (Request request) {
     return Response.ok('100');
@@ -23,11 +23,17 @@ void main() async {
     if (token == null) return Response.notFound('Not Authorized');
     var id = int.parse(idparam);
     if (!files.containsKey(id)) return Response.notFound('Level $id not found');
+    var completed = await db.read('$token-levels_completed');
+    if (completed != null) {
+      if (int.parse(completed) >= id)
+        return Response.notFound('Level $id already completed');
+    }
     var body = await request.readAsString();
     var level = Level.fromJson(files[id]!);
     var path = Path.fromJson(body);
     if (await level.resolve(path)) {
-      db.increase('$token-coins');
+      await db.increase('$token-coins');
+      await db.write('$token-levels_completed', '$id');
       return Response.ok('OK');
     }
     return Response.ok('KO');
@@ -48,12 +54,12 @@ void main() async {
   print('Server running on localhost:${server.port}');
 
   Timer(Duration(hours: 1), () async {
-    files = await gen();
+    files = await gen(db);
   });
   print('Timer ready');
 }
 
-Future<Map<int, String>> gen() async {
+Future<Map<int, String>> gen(Database db) async {
   var file = File('last.gen');
   if (await file.exists()) {
     var lastTxt = await File('last.gen').readAsString();
@@ -61,6 +67,7 @@ Future<Map<int, String>> gen() async {
     if (last.day != DateTime.now().day) {
       await regenerate();
       await file.writeAsString(DateTime.now().toIso8601String());
+      await db.deleteBatch('*levels_completed');
     }
   }
   Map<int, String> files = {};

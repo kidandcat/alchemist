@@ -8,10 +8,10 @@ import 'package:alchemist/constants.dart';
 import 'package:alchemist/utils.dart';
 
 class Path {
-  List<Movement> movements;
+  List<Movement> movements = [];
   Path({
-    this.movements: const [],
-  });
+    List<Movement>? movements,
+  }) : movements = movements ?? [];
 
   Future<List<Tube>> calculatePath(Level level) async {
     var tubes = level.getTubes();
