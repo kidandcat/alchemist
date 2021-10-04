@@ -15,10 +15,12 @@ void main() async {
   var files = await gen(db);
 
   app.get('/levels/count', (Request request) {
+    print('GET levels count');
     return Response.ok('100');
   });
 
   app.post('/levels/resolve/<id>', (Request request, String idparam) async {
+    print('POST levels resolve');
     var token = request.headers['Authorization'];
     if (token == null) return Response.notFound('Not Authorized');
     var id = int.parse(idparam);
@@ -40,6 +42,7 @@ void main() async {
   });
 
   app.get('/coins', (Request request) async {
+    print('GET coins');
     var token = request.headers['Authorization'];
     if (token == null) return Response.notFound('Not Authorized');
     var coins = await db.read('$token-coins');
@@ -47,6 +50,7 @@ void main() async {
   });
 
   app.get('/levels/<id>', (Request request, String id) async {
+    print('GET levels id');
     return Response.ok(files[int.parse(id)]);
   });
 
@@ -60,6 +64,7 @@ void main() async {
 }
 
 Future<Map<int, String>> gen(Database db) async {
+  print('Gen() called');
   var file = File('last.gen');
   if (await file.exists()) {
     var lastTxt = await File('last.gen').readAsString();
@@ -71,6 +76,7 @@ Future<Map<int, String>> gen(Database db) async {
     }
   }
   Map<int, String> files = {};
+  print('Caching levels');
   for (var i = 1; i <= 100; i++) {
     files[i] = await File('levels/match-$i.json').readAsString();
   }

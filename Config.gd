@@ -6,8 +6,8 @@ signal coins
 var lightMode = false
 var movements: int = 100
 var passFile = "fwegfuywe7r632r732fdjghfvjhfesedwfcdewqyhfewjf"
-var server = "http://localhost:8080"
-#var server = "https://galax.be"
+#var server = "http://localhost:8080"
+var server = "https://galax.be"
 var http = HTTPRequest.new()
 var httpResolve = HTTPRequest.new()
 var httpCoins = HTTPRequest.new()
