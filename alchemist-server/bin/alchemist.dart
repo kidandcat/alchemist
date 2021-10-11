@@ -50,20 +50,25 @@ void main() async {
   });
 
   app.get('/levels/<id>', (Request request, String id) async {
-    print('GET levels id');
-    return Response.ok(files[int.parse(id)]);
+    try {
+      return Response.ok(files[int.parse(id)]);
+    } catch (e, s) {
+      print('GET level $id ERROR $e $s');
+      return Response.internalServerError(body: '$e $s');
+    }
   });
 
   var server = await io.serve(app, 'localhost', 8080);
   print('Server running on localhost:${server.port}');
 
-  Timer(Duration(hours: 1), () async {
+  Timer.periodic(Duration(hours: 1), (_) async {
     files = await gen(db);
   });
   print('Timer ready');
 }
 
 Future<Map<int, String>> gen(Database db) async {
+  print('- - - - - - - - - - - - - - - - -');
   print('Gen() called');
   var file = File('last.gen');
   if (await file.exists()) {
@@ -80,5 +85,6 @@ Future<Map<int, String>> gen(Database db) async {
   for (var i = 1; i <= 100; i++) {
     files[i] = await File('levels/match-$i.json').readAsString();
   }
+  print('Get() done');
   return files;
 }
