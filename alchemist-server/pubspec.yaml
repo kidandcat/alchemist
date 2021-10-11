@@ -8,6 +8,6 @@ environment:
 dependencies:
   args: ^2.0.0
   redis: ^2.0.0
-  shelf: ^1.1.0
-  shelf_router: ^1.1.0
+  shelf: ^1.1.1
+  shelf_router: ^1.1.1
 
